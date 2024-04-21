@@ -9,6 +9,8 @@
 #include "stm32f746xx.h"
 #include <vector>
 
+namespace stmapp {
+
 App::App()
     : m_config(defaultConfig())
 {
@@ -21,11 +23,14 @@ void App::run()
 {
     Terminal::instance()->run();
     auto led = PI1.setModer(PinModer::Output).build();
-
-    SdRam::instance()->testMemory();
+    // SdRam::instance()->testMemory();
 
     while (true) {
+        std::cout << "HELLO" << std::endl;
+        printf("Yeah = %x \r\n", 0xFA);
         led.toggle();
         SystemClock::instance()->delay_ms(1000);
     }
 }
+
+};

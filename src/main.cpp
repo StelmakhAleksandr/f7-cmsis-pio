@@ -1,8 +1,10 @@
 #include "App.h"
 
+using namespace stmapp;
+
 int main()
 {
-    App app;
+    stmapp::App app;
     app.run();
 
     return 0;

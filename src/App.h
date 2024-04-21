@@ -2,6 +2,8 @@
 
 #include "config/Config.h"
 
+namespace stmapp {
+
 class App
 {
 public:
@@ -10,4 +12,6 @@ public:
 
 private:
     Config m_config;
+};
+
 };

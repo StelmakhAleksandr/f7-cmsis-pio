@@ -1,5 +1,7 @@
 #include "SdRam.h"
 
+namespace stmapp {
+
 SdRam* SdRam::instance()
 {
     static SdRam instance;
@@ -45,6 +47,7 @@ void SdRam::deallocate(void* ptr, size_t size)
 
 bool SdRam::testMemory()
 {
+    std::cout << "START" << std::endl;
     int* sdram = reinterpret_cast<int*>(SDRAM_START);
     size_t elements = SDRAM_SIZE / sizeof(int);
     for (size_t i = 0; i < elements; i++) {
@@ -52,10 +55,12 @@ bool SdRam::testMemory()
     }
     for (size_t i = 0; i < elements; i++) {
         if (sdram[i] != static_cast<int>(i)) {
-            Terminal::instance()->send("Error at index " + std::to_string(i) + " got " + std::to_string(sdram[i]) + "\r\n");
+            std::cout << "Error at index " << i << " got " << sdram[i] << std::endl;
             return false;
         }
     }
-    Terminal::instance()->send("YEAH \r\n");
+    std::cout << "YEAH" << std::endl;
     return true;
 }
+
+};

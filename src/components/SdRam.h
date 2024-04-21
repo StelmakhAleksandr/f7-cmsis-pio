@@ -4,6 +4,8 @@
 #include "config/Sdram.h"
 #include <cstdint>
 
+namespace stmapp {
+
 template <typename T>
 class SdramAllocator;
 
@@ -50,4 +52,6 @@ public:
     {
         SdRam::instance()->deallocate(p, sizeof(T) * n);
     }
+};
+
 };
