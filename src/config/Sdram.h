@@ -1,17 +1,17 @@
 #pragma once
 
-#include "drivers/Fmc.h"
+#include "stmcmpf7/stmcmp.h"
 #include <cstddef>
+#include <vector>
 
 constexpr uintptr_t SDRAM_START = 0xC0000000;
 constexpr size_t SDRAM_SIZE = 8388608U;
 constexpr size_t SDRAM_BLOCK_SIZE = 1024;
 constexpr size_t SDRAM_NUM_BLOCKS = SDRAM_SIZE / SDRAM_BLOCK_SIZE;
 
-constexpr uint32_t FMC_PINS_AF = 12;
-
-inline std::vector<GpioBuilder> fmcPins()
+inline std::vector<stmcmp::GpioBuilder> fmcPins()
 {
+    using namespace stmcmp;
     return {
         PF0, // A0
         PF1, // A1
@@ -54,8 +54,9 @@ inline std::vector<GpioBuilder> fmcPins()
     };
 }
 
-inline SdramConfig MT48LC2M32B2()
+inline stmcmp::SdramConfig MT48LC2M32B2()
 {
+    using namespace stmcmp;
     return SdramConfig {
         .control = {
             .column = ColumnBits::Bits9,

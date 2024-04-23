@@ -1,12 +1,7 @@
 #include "App.h"
 
-#include "components/ClockManager.h"
-#include "components/SdRam.h"
-#include "components/SystemClock.h"
-#include "components/Terminal.h"
 #include "config/Config.h"
-#include "drivers/Pins.h"
-#include "stm32f746xx.h"
+#include "stmcmpf7/stmcmp.h"
 #include <vector>
 
 namespace stmapp {
@@ -14,22 +9,30 @@ namespace stmapp {
 App::App()
     : m_config(defaultConfig())
 {
-    ClockManager::instance()->enableMaxClockSpeed();
-    Terminal::instance()->setup();
+    using namespace stmcmp;
+    auto clocks = ClocksBuilder()
+                      .setHse(25_MHz)
+                      .setSysclk(216_MHz)
+                      .setHclk(216_MHz)
+                      .setPclk1(54_MHz)
+                      .setPclk2(108_MHz)
+                      .build();
+    Terminal::instance()->setup(m_config.terminal, clocks);
+    SystemClock::instance()->setup(clocks);
     SdRam::instance()->setup(m_config.sdram);
 }
 
 void App::run()
 {
-    Terminal::instance()->run();
+    using namespace stmcmp;
     auto led = PI1.setModer(PinModer::Output).build();
     // SdRam::instance()->testMemory();
 
     while (true) {
         std::cout << "HELLO" << std::endl;
-        printf("Yeah = %x \r\n", 0xFA);
+        stmcmp::printf("Yeah = %x \r\n", 0xFA);
         led.toggle();
-        SystemClock::instance()->delay_ms(1000);
+        SystemClock::instance()->delay(std::chrono::seconds(1));
     }
 }
 
