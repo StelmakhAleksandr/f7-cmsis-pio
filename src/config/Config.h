@@ -1,11 +1,15 @@
 #pragma once
 
+#include "Lcd.h"
 #include "Sdram.h"
+#include "Touch.h"
 
 struct Config
 {
     stmcmp::SdramConfig sdram;
     stmcmp::TerminalConfig terminal;
+    stmcmp::LcdConfig lcd;
+    stmcmp::TouchConfig touch;
 };
 
 inline Config defaultConfig()
@@ -15,5 +19,7 @@ inline Config defaultConfig()
         .terminal = {
             .baudrate = 115200,
         },
+        .lcd = lcd(),
+        .touch = touch(),
     };
 }
